@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 > Part of the **ShieldGuard** family — protecting you on every device.  
-> 📱 [ShieldGuard Android](../ShieldGuard) | 🖥️ **ShieldGuard Desktop** (this repo)
+> 📱 [ShieldGuard Android](https://github.com/iamalig007-dot/ShieldGuard-Android) | 🖥️ **ShieldGuard Desktop** (this repo)
 
 ---
 
@@ -38,7 +38,7 @@ ShieldGuard adds harmful domains to your **Windows hosts file** (`C:\Windows\Sys
 
 ### Build & Run
 ```bash
-git clone https://github.com/YOUR_USERNAME/ShieldGuard-Desktop.git
+git clone https://github.com/iamalig007-dot/ShieldGuard-Desktop.git
 cd ShieldGuard-Desktop
 dotnet run --project ShieldGuard.Desktop
 ```
