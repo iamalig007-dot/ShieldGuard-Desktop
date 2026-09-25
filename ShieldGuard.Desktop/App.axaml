@@ -1,0 +1,76 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ShieldGuard.Desktop.App"
+             RequestedThemeVariant="Dark">
+  <Application.Resources>
+    <!-- Brand Colors -->
+    <Color x:Key="BrandPrimary">#6C63FF</Color>
+    <Color x:Key="BrandSecondary">#4ECDC4</Color>
+    <Color x:Key="BrandDanger">#FF6B6B</Color>
+    <Color x:Key="BrandSuccess">#51CF66</Color>
+    <Color x:Key="BrandWarning">#FCC419</Color>
+    <Color x:Key="BackgroundDark">#0A0E1A</Color>
+    <Color x:Key="BackgroundCard">#111827</Color>
+    <Color x:Key="BackgroundCard2">#1A2235</Color>
+    <Color x:Key="TextPrimary">#F0F4FF</Color>
+    <Color x:Key="TextSecondary">#8A9BBE</Color>
+    <SolidColorBrush x:Key="BrandPrimaryBrush" Color="{StaticResource BrandPrimary}"/>
+    <SolidColorBrush x:Key="BrandSecondaryBrush" Color="{StaticResource BrandSecondary}"/>
+    <SolidColorBrush x:Key="BrandDangerBrush" Color="{StaticResource BrandDanger}"/>
+    <SolidColorBrush x:Key="BrandSuccessBrush" Color="{StaticResource BrandSuccess}"/>
+    <SolidColorBrush x:Key="BrandWarningBrush" Color="{StaticResource BrandWarning}"/>
+    <SolidColorBrush x:Key="BackgroundDarkBrush" Color="{StaticResource BackgroundDark}"/>
+    <SolidColorBrush x:Key="BackgroundCardBrush" Color="{StaticResource BackgroundCard}"/>
+    <SolidColorBrush x:Key="BackgroundCard2Brush" Color="{StaticResource BackgroundCard2}"/>
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource TextPrimary}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource TextSecondary}"/>
+  </Application.Resources>
+
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://Avalonia.Themes.Fluent/FluentTheme.axaml"/>
+    <Style Selector="Window">
+      <Setter Property="Background" Value="{StaticResource BackgroundDarkBrush}"/>
+      <Setter Property="FontFamily" Value="avares://Avalonia.Fonts.Inter/Assets#Inter"/>
+    </Style>
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+      <Setter Property="FontFamily" Value="avares://Avalonia.Fonts.Inter/Assets#Inter"/>
+    </Style>
+    <Style Selector="Button.primary">
+      <Setter Property="Background" Value="{StaticResource BrandPrimaryBrush}"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="Padding" Value="24,12"/>
+      <Setter Property="CornerRadius" Value="12"/>
+      <Setter Property="FontSize" Value="15"/>
+      <Setter Property="FontWeight" Value="SemiBold"/>
+      <Setter Property="Cursor" Value="Hand"/>
+    </Style>
+    <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#5A52D5"/>
+    </Style>
+    <Style Selector="Button.danger">
+      <Setter Property="Background" Value="{StaticResource BrandDangerBrush}"/>
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="Padding" Value="20,10"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="FontSize" Value="14"/>
+    </Style>
+    <Style Selector="Button.secondary">
+      <Setter Property="Background" Value="{StaticResource BackgroundCard2Brush}"/>
+      <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+      <Setter Property="Padding" Value="20,10"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="FontSize" Value="14"/>
+    </Style>
+    <Style Selector="TextBox">
+      <Setter Property="Background" Value="{StaticResource BackgroundCard2Brush}"/>
+      <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+      <Setter Property="BorderBrush" Value="#2A3455"/>
+      <Setter Property="BorderThickness" Value="1"/>
+      <Setter Property="CornerRadius" Value="10"/>
+      <Setter Property="Padding" Value="14,10"/>
+      <Setter Property="FontSize" Value="16"/>
+    </Style>
+  </Application.Styles>
+</Application>

@@ -1,0 +1,185 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ShieldGuard.Desktop.ViewModels"
+        x:Class="ShieldGuard.Desktop.Views.MainWindow"
+        Title="ShieldGuard — PC Protection"
+        Width="680" Height="720"
+        MinWidth="600" MinHeight="640"
+        WindowStartupLocation="CenterScreen"
+        Background="#0A0E1A"
+        Icon="/Assets/shield.ico"
+        x:DataType="vm:MainViewModel">
+
+  <ScrollViewer>
+    <StackPanel Margin="36,32" Spacing="20">
+
+      <!-- Header -->
+      <Grid ColumnDefinitions="*,Auto">
+        <StackPanel Grid.Column="0" Spacing="2">
+          <TextBlock Text="🛡️ ShieldGuard Desktop" FontSize="13"
+                     Foreground="#6C63FF" FontWeight="SemiBold" LetterSpacing="2"/>
+          <TextBlock Text="PC Protection Dashboard" FontSize="26"
+                     FontWeight="ExtraBold" Foreground="#F0F4FF"/>
+        </StackPanel>
+        <Button Grid.Column="1" Classes="secondary" VerticalAlignment="Center"
+                Command="{Binding ShowChangePinPanelCommand}"
+                Content="🔐 Change PIN"/>
+      </Grid>
+
+      <!-- Status Card -->
+      <Border CornerRadius="20" Padding="28,24">
+        <Border.Background>
+          <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+            <GradientStop Color="#1A1040" Offset="0"/>
+            <GradientStop Color="#0D2040" Offset="1"/>
+          </LinearGradientBrush>
+        </Border.Background>
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel Grid.Column="0" Spacing="8">
+            <TextBlock Text="{Binding StatusTitle}" FontSize="22"
+                       FontWeight="ExtraBold" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding StatusSubtitle}" FontSize="14"
+                       Foreground="#8A9BBE" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding ShieldProgress, StringFormat='Shields Active: {0}'}"
+                       FontSize="13" Foreground="#6C63FF" FontWeight="SemiBold"/>
+          </StackPanel>
+          <Border Grid.Column="1" Width="72" Height="72" CornerRadius="36"
+                  HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Border.Background>
+              <SolidColorBrush Color="#6C63FF" Opacity="0.15"/>
+            </Border.Background>
+            <TextBlock Text="🛡️" FontSize="36" HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+          </Border>
+        </Grid>
+      </Border>
+
+      <!-- Working indicator -->
+      <Border Background="#111827" CornerRadius="12" Padding="16,12"
+              IsVisible="{Binding IsWorking}">
+        <StackPanel Orientation="Horizontal" Spacing="12">
+          <TextBlock Text="⚙️" FontSize="18"/>
+          <TextBlock Text="{Binding WorkingMessage}" FontSize="14"
+                     Foreground="#4ECDC4" VerticalAlignment="Center"/>
+        </StackPanel>
+      </Border>
+
+      <!-- Shield Cards -->
+      <TextBlock Text="PROTECTION SHIELDS" FontSize="11" FontWeight="Bold"
+                 Foreground="#8A9BBE" LetterSpacing="2" Margin="0,4,0,-4"/>
+
+      <!-- Content Shield Card -->
+      <Border Background="#111827" CornerRadius="16" Padding="22,18">
+        <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto">
+          <TextBlock Grid.Column="0" Grid.RowSpan="2" Text="🌐" FontSize="32"
+                     VerticalAlignment="Center" Margin="0,0,18,0"/>
+          <StackPanel Grid.Column="1" Grid.Row="0" Spacing="3">
+            <TextBlock Text="Content Shield" FontSize="16" FontWeight="Bold"/>
+            <TextBlock FontSize="13" Foreground="#8A9BBE" TextWrapping="Wrap">
+              <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} harmful sites blocked via hosts file">
+                  <Binding Path="BlockedDomainCount"/>
+                </MultiBinding>
+              </TextBlock.Text>
+            </TextBlock>
+          </StackPanel>
+          <Border Grid.Column="1" Grid.Row="1" Margin="0,8,0,0"
+                  IsVisible="{Binding !ContentShieldEnabled}">
+            <TextBlock Text="⚠️ Not active — click Enable to protect your PC"
+                       FontSize="12" Foreground="#FCC419"/>
+          </Border>
+          <Border Grid.Column="1" Grid.Row="1" Margin="0,8,0,0"
+                  IsVisible="{Binding ContentShieldEnabled}">
+            <TextBlock Text="✅ Active — all browsers protected"
+                       FontSize="12" Foreground="#51CF66"/>
+          </Border>
+
+          <Button Grid.Column="2" Grid.RowSpan="2"
+                  Classes="primary" VerticalAlignment="Center"
+                  Command="{Binding ToggleContentShieldCommand}"
+                  IsEnabled="{Binding !IsWorking}">
+            <Button.Content>
+              <MultiBinding StringFormat="{}{0}">
+                <Binding Path="ContentShieldEnabled"
+                         Converter="{x:Static BoolConverters.Not}"/>
+              </MultiBinding>
+            </Button.Content>
+            <Button.ContentTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding $parent[Button].DataContext.ContentShieldEnabled,
+                    Converter={x:Static BoolConverters.Not},
+                    ConverterParameter='Disable|Enable'}"
+                           Foreground="White" FontWeight="SemiBold"/>
+              </DataTemplate>
+            </Button.ContentTemplate>
+          </Button>
+        </Grid>
+      </Border>
+
+      <!-- Startup Shield Card -->
+      <Border Background="#111827" CornerRadius="16" Padding="22,18">
+        <Grid ColumnDefinitions="Auto,*,Auto">
+          <TextBlock Grid.Column="0" Text="⚡" FontSize="32"
+                     VerticalAlignment="Center" Margin="0,0,18,0"/>
+          <StackPanel Grid.Column="1" Spacing="3">
+            <TextBlock Text="Auto-Start Shield" FontSize="16" FontWeight="Bold"/>
+            <TextBlock FontSize="13" Foreground="#8A9BBE"
+                       Text="Activates protection automatically on Windows startup"/>
+            <TextBlock FontSize="12" Foreground="#51CF66"
+                       Text="✅ Enabled — starts with Windows"
+                       IsVisible="{Binding StartupEnabled}"/>
+            <TextBlock FontSize="12" Foreground="#FCC419"
+                       Text="⚠️ Disabled — protection won't start automatically"
+                       IsVisible="{Binding !StartupEnabled}"/>
+          </StackPanel>
+          <Button Grid.Column="2" Classes="primary" VerticalAlignment="Center"
+                  Command="{Binding ToggleStartupCommand}">
+            <Button.Content>
+              <TextBlock Foreground="White" FontWeight="SemiBold">
+                <TextBlock.Text>
+                  <Binding Path="StartupEnabled"
+                           Converter="{x:Static BoolConverters.Not}"
+                           ConverterParameter="on"/>
+                </TextBlock.Text>
+              </TextBlock>
+            </Button.Content>
+          </Button>
+        </Grid>
+      </Border>
+
+      <!-- Change PIN Panel -->
+      <Border Background="#111827" CornerRadius="16" Padding="22,18"
+              IsVisible="{Binding ShowPinChange}">
+        <StackPanel Spacing="14">
+          <TextBlock Text="🔐 Change Admin PIN" FontSize="16" FontWeight="Bold"/>
+          <TextBox Text="{Binding CurrentPin}" PasswordChar="●"
+                   Watermark="Current PIN" MaxLength="8"/>
+          <TextBox Text="{Binding NewPin}" PasswordChar="●"
+                   Watermark="New PIN (4-8 digits)" MaxLength="8"/>
+          <Grid ColumnDefinitions="*,Auto">
+            <TextBlock Grid.Column="0" Text="{Binding PinMessage}"
+                       VerticalAlignment="Center" FontSize="13"
+                       Foreground="{Binding PinMessageIsError,
+                         Converter={x:Static BoolConverters.Not},
+                         ConverterParameter='#51CF66|#FF6B6B'}"/>
+            <Button Grid.Column="1" Classes="primary"
+                    Command="{Binding SaveNewPinCommand}"
+                    Content="Save PIN"/>
+          </Grid>
+        </StackPanel>
+      </Border>
+
+      <!-- Info footer -->
+      <Border Background="#0D1420" CornerRadius="12" Padding="16,12">
+        <StackPanel Spacing="6">
+          <TextBlock Text="ℹ️ How ShieldGuard works" FontSize="13"
+                     FontWeight="SemiBold" Foreground="#8A9BBE"/>
+          <TextBlock TextWrapping="Wrap" FontSize="12" Foreground="#4A5568">
+            Content Shield blocks harmful sites at the Windows hosts file level — works across ALL browsers (Chrome, Edge, Firefox, Brave) and cannot be bypassed by browser extensions. Auto-Start ensures protection is always active.
+          </TextBlock>
+        </StackPanel>
+      </Border>
+
+    </StackPanel>
+  </ScrollViewer>
+</Window>

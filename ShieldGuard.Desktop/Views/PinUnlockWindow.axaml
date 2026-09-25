@@ -1,0 +1,71 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ShieldGuard.Desktop.ViewModels"
+        x:Class="ShieldGuard.Desktop.Views.PinUnlockWindow"
+        Title="ShieldGuard — Unlock"
+        Width="420" Height="520"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Background="#0A0E1A"
+        Icon="/Assets/shield.ico"
+        x:DataType="vm:PinUnlockViewModel">
+
+  <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+              Spacing="24" Margin="40">
+
+    <!-- Logo -->
+    <TextBlock Text="🛡️" FontSize="56" HorizontalAlignment="Center"/>
+    <StackPanel Spacing="4" HorizontalAlignment="Center">
+      <TextBlock Text="ShieldGuard" FontSize="26" FontWeight="ExtraBold"
+                 Foreground="#6C63FF" HorizontalAlignment="Center"/>
+      <TextBlock Text="Enter PIN to access settings"
+                 FontSize="14" Foreground="#8A9BBE" HorizontalAlignment="Center"/>
+    </StackPanel>
+
+    <!-- PIN dots display -->
+    <Border Background="#111827" CornerRadius="16" Padding="28,20"
+            HorizontalAlignment="Center">
+      <StackPanel Spacing="16">
+        <TextBox Text="{Binding Pin}" PasswordChar="●"
+                 FontSize="32" TextAlignment="Center"
+                 MaxLength="8" IsReadOnly="True"
+                 BorderThickness="0" Background="Transparent"
+                 Width="220" HorizontalContentAlignment="Center"
+                 Foreground="#6C63FF" CaretBrush="Transparent"/>
+
+        <!-- Numpad -->
+        <UniformGrid Rows="4" Columns="3" HorizontalAlignment="Center">
+          <Button Classes="secondary" Content="1" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="1"/>
+          <Button Classes="secondary" Content="2" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="2"/>
+          <Button Classes="secondary" Content="3" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="3"/>
+          <Button Classes="secondary" Content="4" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="4"/>
+          <Button Classes="secondary" Content="5" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="5"/>
+          <Button Classes="secondary" Content="6" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="6"/>
+          <Button Classes="secondary" Content="7" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="7"/>
+          <Button Classes="secondary" Content="8" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="8"/>
+          <Button Classes="secondary" Content="9" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="9"/>
+          <Button Classes="secondary" Content="⌫" Width="72" Height="52" Margin="4"
+                  Command="{Binding DeleteDigitCommand}"/>
+          <Button Classes="secondary" Content="0" Width="72" Height="52" Margin="4"
+                  Command="{Binding AppendDigitCommand}" CommandParameter="0"/>
+          <Button Classes="primary" Content="✓" Width="72" Height="52" Margin="4"
+                  Command="{Binding UnlockCommand}"/>
+        </UniformGrid>
+
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="#FF6B6B"
+                   IsVisible="{Binding HasError}" FontSize="13"
+                   HorizontalAlignment="Center"/>
+      </StackPanel>
+    </Border>
+
+  </StackPanel>
+</Window>

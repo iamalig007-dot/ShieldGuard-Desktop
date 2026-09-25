@@ -1,0 +1,15 @@
+# Binaries
+bin/
+obj/
+publish/
+*.user
+.vs/
+
+# Build artifacts
+*.exe
+*.dll
+*.pdb
+
+# OS
+.DS_Store
+Thumbs.db

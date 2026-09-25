@@ -1,0 +1,143 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ShieldGuard.Desktop.ViewModels"
+        x:Class="ShieldGuard.Desktop.Views.OnboardingWindow"
+        Title="ShieldGuard — Setup"
+        Width="520" Height="600"
+        CanResize="False"
+        WindowStartupLocation="CenterScreen"
+        Background="#0A0E1A"
+        Icon="/Assets/shield.ico"
+        x:DataType="vm:OnboardingViewModel">
+
+  <Grid RowDefinitions="Auto,*,Auto">
+
+    <!-- Top header -->
+    <StackPanel Grid.Row="0" Margin="40,36,40,0" Spacing="8">
+      <TextBlock Text="🛡️ ShieldGuard Desktop"
+                 FontSize="22" FontWeight="Bold"
+                 Foreground="#6C63FF"/>
+      <TextBlock Text="{Binding CurrentTitle}"
+                 FontSize="28" FontWeight="ExtraBold"
+                 Foreground="#F0F4FF" TextWrapping="Wrap"/>
+      <TextBlock Text="{Binding CurrentDescription}"
+                 FontSize="14" Foreground="#8A9BBE"
+                 TextWrapping="Wrap" Margin="0,4,0,0"/>
+    </StackPanel>
+
+    <!-- Step progress dots -->
+    <ItemsControl Grid.Row="0" Margin="40,0,40,0" VerticalAlignment="Bottom"
+                  HorizontalAlignment="Left">
+      <!-- Simplified dots via rectangles -->
+    </ItemsControl>
+
+    <!-- Content area -->
+    <Border Grid.Row="1" Margin="40,24" CornerRadius="20"
+            Background="#111827" Padding="32,28">
+      <Grid>
+
+        <!-- Step 0: Welcome -->
+        <StackPanel IsVisible="{Binding IsWelcomeStep}" Spacing="20">
+          <TextBlock Text="What ShieldGuard protects:" FontSize="15"
+                     Foreground="#8A9BBE" FontWeight="SemiBold"/>
+          <StackPanel Spacing="14">
+            <Border Background="#1A2235" CornerRadius="12" Padding="16,12">
+              <StackPanel Orientation="Horizontal" Spacing="14">
+                <TextBlock Text="🌐" FontSize="24"/>
+                <StackPanel>
+                  <TextBlock Text="Content Shield" FontWeight="Bold" FontSize="15"/>
+                  <TextBlock Text="Blocks 50,000+ harmful websites" FontSize="13" Foreground="#8A9BBE"/>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+            <Border Background="#1A2235" CornerRadius="12" Padding="16,12">
+              <StackPanel Orientation="Horizontal" Spacing="14">
+                <TextBlock Text="🔐" FontSize="24"/>
+                <StackPanel>
+                  <TextBlock Text="Admin PIN Lock" FontWeight="Bold" FontSize="15"/>
+                  <TextBlock Text="Nobody can change settings without PIN" FontSize="13" Foreground="#8A9BBE"/>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+            <Border Background="#1A2235" CornerRadius="12" Padding="16,12">
+              <StackPanel Orientation="Horizontal" Spacing="14">
+                <TextBlock Text="⚡" FontSize="24"/>
+                <StackPanel>
+                  <TextBlock Text="Auto-Start Protection" FontWeight="Bold" FontSize="15"/>
+                  <TextBlock Text="Starts automatically with Windows" FontSize="13" Foreground="#8A9BBE"/>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </StackPanel>
+
+        <!-- Step 1: Create PIN -->
+        <StackPanel IsVisible="{Binding IsPinStep}" Spacing="20">
+          <Border Background="#1A2235" CornerRadius="14" Padding="24">
+            <StackPanel Spacing="16">
+              <TextBlock Text="🔐" FontSize="48" HorizontalAlignment="Center"/>
+              <TextBlock Text="Enter a 4-8 digit PIN" FontSize="14"
+                         Foreground="#8A9BBE" HorizontalAlignment="Center"/>
+              <TextBox Text="{Binding Pin}" PasswordChar="●"
+                       FontSize="28" TextAlignment="Center"
+                       MaxLength="8" Watermark="● ● ● ●"
+                       HorizontalContentAlignment="Center"/>
+              <TextBlock Text="{Binding ErrorMessage}" Foreground="#FF6B6B"
+                         IsVisible="{Binding HasError}" FontSize="13"
+                         HorizontalAlignment="Center"/>
+            </StackPanel>
+          </Border>
+          <TextBlock Text="⚠️ Remember this PIN — without it you cannot access ShieldGuard settings."
+                     FontSize="12" Foreground="#FCC419" TextWrapping="Wrap"
+                     HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Step 2: Confirm PIN -->
+        <StackPanel IsVisible="{Binding IsConfirmStep}" Spacing="20">
+          <Border Background="#1A2235" CornerRadius="14" Padding="24">
+            <StackPanel Spacing="16">
+              <TextBlock Text="🔑" FontSize="48" HorizontalAlignment="Center"/>
+              <TextBlock Text="Re-enter your PIN to confirm" FontSize="14"
+                         Foreground="#8A9BBE" HorizontalAlignment="Center"/>
+              <TextBox Text="{Binding ConfirmPin}" PasswordChar="●"
+                       FontSize="28" TextAlignment="Center"
+                       MaxLength="8" Watermark="● ● ● ●"
+                       HorizontalContentAlignment="Center"/>
+              <TextBlock Text="{Binding ErrorMessage}" Foreground="#FF6B6B"
+                         IsVisible="{Binding HasError}" FontSize="13"
+                         HorizontalAlignment="Center"/>
+            </StackPanel>
+          </Border>
+        </StackPanel>
+
+        <!-- Step 3: Done -->
+        <StackPanel IsVisible="{Binding IsDoneStep}" Spacing="20" VerticalAlignment="Center">
+          <TextBlock Text="✅" FontSize="64" HorizontalAlignment="Center"/>
+          <TextBlock Text="You're Protected!" FontSize="26" FontWeight="ExtraBold"
+                     HorizontalAlignment="Center"/>
+          <TextBlock Text="ShieldGuard is now set up on your PC. Your PIN is saved and protection is ready to activate."
+                     FontSize="14" Foreground="#8A9BBE" TextWrapping="Wrap"
+                     HorizontalAlignment="Center" TextAlignment="Center"/>
+        </StackPanel>
+
+      </Grid>
+    </Border>
+
+    <!-- Bottom buttons -->
+    <Grid Grid.Row="2" Margin="40,0,40,32" ColumnDefinitions="Auto,*,Auto">
+      <Button Grid.Column="0" Classes="secondary"
+              Command="{Binding BackCommand}"
+              IsVisible="{Binding CanGoBack}"
+              Content="← Back"/>
+      <Button Grid.Column="2" Classes="primary"
+              Command="{Binding NextCommand}"
+              IsVisible="{Binding !IsDoneStep}"
+              Content="Continue →"/>
+      <Button Grid.Column="2" Classes="primary"
+              Command="{Binding OpenDashboardCommand}"
+              IsVisible="{Binding IsDoneStep}"
+              Content="Open Dashboard 🛡️"/>
+    </Grid>
+
+  </Grid>
+</Window>
